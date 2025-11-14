@@ -28,6 +28,7 @@
             display: block;
             border: 3px solid #654321;
             touch-action: none;
+            background: linear-gradient(to bottom, #87CEEB 0%, #98D8E8 100%);
         }
         
         #score {
@@ -565,9 +566,15 @@
                 if (type === 'shoot') {
                     shootSound.currentTime = 0;
                     shootSound.play().catch(e => console.log('Shoot sound error:', e));
-                } else if (type === 'hit') {
+                } else if (type === 'hit' || type === 'break') {
                     hitSound.currentTime = 0;
                     hitSound.play().catch(e => console.log('Hit sound error:', e));
+                } else if (type === 'boost') {
+                    // Boost sound (can use shoot sound as fallback)
+                    shootSound.currentTime = 0;
+                    shootSound.volume = 0.5;
+                    shootSound.play().catch(e => console.log('Boost sound error:', e));
+                    setTimeout(() => shootSound.volume = 0.7, 200);
                 }
             } catch (e) {
                 console.log('Sound playback error:', e);
@@ -1003,4 +1010,4 @@
         update();
     </script>
 </body>
-</html> 
+</html>
